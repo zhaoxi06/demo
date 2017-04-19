@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+div,img,a,ul,li{padding:0;margin:0;}
+a{text-decoration:none;}
+li{list-style:none;}
+body{background:#333;}
+#main {
+	width:510px;
+	height:470px;
+	margin:60px auto;
+	border:10px solid #fff;
+	position:relative;
+}
+#img1 {
+	width:510px;
+	height:470px;	
+}
+#main a{
+	width:40px;
+	height:40px;
+	border:5px solid #999;
+	font-size:16px;
+	text-align:center;
+	line-height:40px;
+	filter:alpha(opacity:30);opacity:0.3;
+	font-weight:bold;	
+	background:#000;
+	color:#FFF;
+	position:absolute;
+	top:230px;
+}
+#prev{
+	left:0;	
+}
+#next{
+	right:0;	
+}
+#main a:hover{filter:alpha(opacity:80);opacity:0.8;}
+#list {
+	width:50px;
+	height:10px;
+	position:absolute;
+	bottom:10px;
+	left:230px;
+}
+#list li{
+	float:left;
+	width:10px;
+	height:10px;
+	border:1px solid #CF6;	
+	border-radius: 50%;
+}
+.yellow{background:orange;}
+li img{
+	width:100px;
+	height:80px;
+	position:absolute;
+	border:5px solid #FFF;
+	top:-100px;
+	display:none;
+}
+</style>
+
+<script>
+window.onload = function (){
+	var oDiv = document.getElementById('main');
+	var oImg1 = document.getElementById('img1');
+	var oPrev = document.getElementById('prev');
+	var oNext = document.getElementById('next');
+	var oUl = document.getElementById('list');
+	var aLi = oUl.getElementsByTagName('li');
+	var aImg = oUl.getElementsByTagName('img');
+	//var aDiv = oUl.getElementsByTagName('div');
+	var arrUrl = ['img/gy1.jpg','img/gy2.jpg','img/gy3.jpg','img/gy4.jpg'];
+	
+	var num = 0;
+	var oldLi = null;
+	
+	
+	
+	//初始化
+	function show (){
+		oImg1.src = arrUrl[num];
+		oldLi = aLi[num];
+		aLi[num].className = 'yellow';	
+	}
+	show ();
+	
+	oPrev.onclick = function (){
+		num --;
+		if(num==-1){
+			num = arrUrl.length-1;	
+		}
+		oldLi.className = '';
+		show ();
+	}
+	
+	oNext.onclick = function (){
+		num ++;
+		if(num==arrUrl.length){
+			num = 0;
+		}
+		oldLi.className = '';
+		show ();
+	}
+	
+	for(var i=0;i<aLi.length;i++){
+		aLi[i].index = i;
+		aLi[i].onmouseover = function () {
+			for(var i=0;i<aImg.length;i++){
+				aImg[i].style.display = '';	
+			}
+			aImg[this.index].style.left = -55 + this.index*10 + 'px' ;
+			aImg[this.index].src = arrUrl[this.index];
+			aImg[this.index].style.display = 'block';
+		};
+		
+		aLi[i].onmouseout = function (){
+			for(var i=0;i<aImg.length;i++){
+				aImg[i].style.display = 'none';	
+			}	
+		}
+		
+		aLi[i].onclick = function () {
+			oImg1.src = arrUrl[this.index];
+			oldLi.className = '';
+			oldLi = aLi[this.index];
+			aLi[this.index].className = 'yellow';
+		}
+	}
+};
+</script>
+<body>
+<div id='main'>
+	<img id='img1' src='' />
+    <a id='prev'> < </a>
+    <a id='next'> > </a>
+    <ul id='list'>
+    	<li>
+        	<img />
+            <div></div>
+        </li>
+    	<li>
+        	<img />
+            <div></div>
+        </li>
+    	<li>
+        	<img />
+            <div></div>
+        </li>
+    	<li>
+        	<img />
+            <div></div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

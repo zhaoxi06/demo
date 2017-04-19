@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+/*body{background:#333;}*/
+div,img,span,p {margin:0; padding:0}
+#pic1,#pic2{float:left; height:320px; border:1px #CF9 solid; position:absolute;}
+#pic {width:960px; height:400px; margin:60px auto; position:relative;}
+#pic1 {width:600px; top:30px;}
+#pic2 {width:300px; top:30px; right:10px;}
+#pic1 img {width:600px; height:320px;}
+#pic2 img {width:300px; height:320px;}
+span,p {height:30px; text-align:center; line-height:30px; color:#FFF; background:#000; position:absolute;opacity:0.3;}
+span {bottom:0;left:0;}
+p {top:0;}
+#pic1 span,#pic1 p{width:600px;}
+#pic2 span,#pic2 p{width:300px;}
+</style>
+<script>
+window.onload = function ()
+{
+	//获取元素
+	var oDiv = document.getElementById('pic');
+	var aBtn = oDiv.getElementsByTagName('input');
+	//西塘
+	var xtPic = ['img/1xt.jpg','img/2xt.jpg','img/3xt.jpg','img/4xt.jpg','img/5xt.jpg'];
+	var xtText = ['西塘1','西塘2','西塘3','西塘4','西塘5'];
+	var oPic1 = document.getElementById('pic1');
+	var oImg1 = oPic1.getElementsByTagName('img');
+	var oSpan1 = oPic1.getElementsByTagName('span');
+	var oP1 = oPic1.getElementsByTagName('p');
+	//光影
+	var gyPic = ['img/gy1.jpg','img/gy2.jpg','img/gy3.jpg','img/gy4.jpg'];
+	var gyText = ['光影1','光影2','光影3','光影4'];
+	var oPic2 = document.getElementById('pic2');
+	var oImg2 = oPic2.getElementsByTagName('img');
+	var oSpan2 = oPic2.getElementsByTagName('span');
+	var oP2 = oPic2.getElementsByTagName('p');
+	
+	var num1 = 0;//控制第一组图片的切换
+	var num2 = 0;//控制第二组图片的切换
+	
+	function fnTab1 ()
+	{
+		oImg1[0].src = xtPic[num1];
+		oSpan1[0].innerHTML = 1+num1+'/'+xtPic.length;
+		oP1[0].innerHTML = xtText[num1];
+	};
+	function fnTab2 ()
+	{
+		oImg2[0].src = gyPic[num2];
+		oSpan2[0].innerHTML = 1+num2+'/'+gyPic.length;
+		oP2[0].innerHTML = gyText[num2];
+	};
+	fnTab1 ();
+	fnTab2 ();
+	
+	aBtn[0].onclick = function ()
+	{
+		num1 --;
+		num2 --;
+		if(num1 == -1)
+		{
+			num1 = xtText.length-1;	
+		}
+		if(num2 == -1)
+		{
+			num2 = gyText.length-1;	
+		}
+		fnTab1 ();
+		fnTab2 ();
+	}
+	aBtn[1].onclick = function ()
+	{
+		num1 ++;
+		num2 ++;
+		if(num1==xtText.length)
+		{
+			num1 = 0;	
+		}
+		if(num2==gyText.length)
+		{
+			num2 = 0;	
+		}
+		fnTab1 ();
+		fnTab2 ();
+	}
+	
+	oImg1[0].onclick = function () {
+		num1 ++;
+		if(num1==xtPic.length)	{
+			num1 = 0;	
+		}
+		fnTab1 ();
+	}
+	oImg2[0].onclick = function () {
+		num2 ++;
+		if(num2==gyPic.length)	{
+			num2 = 0;	
+		}
+		fnTab2 ();
+	}
+};
+</script>
+<body>
+<div id = 'pic'>
+<input type='button' value='上一组' />
+<input type='button' value='下一组' />   <br />
+<div id = 'pic1'>
+    <img src=''/>
+    <span>数量正在加载中......</span>
+    <p>文字说明正在加载中......</p>
+</div>
+<div id = 'pic2'>
+    <img src='' />
+    <span>数量正在加载中......</span>
+    <p>文字说明正在加载中......</p>
+</div>
+</div>
+</body>
+</html>

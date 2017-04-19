@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+div,body,ul,li,img{padding:0;margin:0;}
+li{list-style:none;}
+#div1{
+	width:500px;
+	height:350px;
+	border:5px solid #CF0;
+	margin:60px auto;	
+	position:relative;
+}
+#div1 img{
+	width:340px;
+	height:	350px;
+	position:absolute;
+	top:0;
+	left:80px;
+}
+#div1 ul{
+	width:80px;
+	height:350px;
+	position:absolute;
+	top:0;
+	text-align:center;	
+	background:#9C0;	
+	color:white;
+}
+#div1 li{
+	width:80px;
+	height:50px;
+	line-height:50px;
+	float:left;
+}
+#div1 li.active{
+	background:#F90;	
+}
+#left{
+	left:0;	
+}
+#right{
+	right:0;	
+}
+</style>
+
+<script>
+window.onload = function (){
+	var oDiv = document.getElementById('div1');
+	var oImg = oDiv.getElementsByTagName('img')[0];
+	var oLeft = document.getElementById('left');
+	var aLi1 = oLeft.getElementsByTagName('li');
+	var oRight = document.getElementById('right');
+	var aLi2 = oRight.getElementsByTagName('li');
+	
+	var data = {
+		left:{
+			url:['img/left1.jpg','img/left2.jpg','img/left3.jpg','img/left4.jpg','img/left5.jpg','img/left6.jpg','img/left7.jpg'],
+			text:['图片1','图片2','图片3','图片4','图片5','图片6','图片7'],
+		},
+		right:{
+			url:['img/right1.jpg','img/right2.jpg','img/right3.jpg','img/right4.jpg','img/right5.jpg','img/right6.jpg','img/right7.jpg'],	
+			text:['图片8','图片9','图片10','图片11','图片12','图片13','图片14']
+		}
+	};
+	
+	//初始化
+	var len = data.left.url.length;
+	
+	for(var i=0;i<len;i++){
+		oLeft.innerHTML += '<li>' + data.left.text[i] + '</li>';
+		oRight.innerHTML += '<li>' + data.right.text[i] + '</li>';
+	}
+	
+	oImg.src = data.left.url[0];
+	aLi1[0].className = 'active';
+	
+	var num = 0;
+	var onOff = true;
+	var oldLi = aLi1[0];
+	var timer = null;
+	
+	//fn(6);
+	autoPlay();
+	function autoPlay(){
+		timer = setInterval(fn,600);	
+	}
+	function fn(){
+		oldLi.className = '';
+		num ++;
+		num %= len;
+		if(num===0){
+			onOff = !onOff;
+		}
+		if(onOff){
+			oldLi = aLi1[num];
+			aLi1[num].className = 'active';
+			oImg.src = data.left.url[num];
+		}else{
+			oldLi = aLi2[num];
+			aLi2[num].className = 'active';
+			oImg.src = data.right.url[num];	
+		}
+	}
+}
+</script>
+<body>
+<div id='div1'>
+	<img />
+	<ul id='left'></ul>
+    <ul id='right'></ul>
+</div>
+</body>
+</html>

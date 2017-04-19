@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+body,div,ul,li,img,span{margin:0;padding:0;}
+li{list-style:none;}
+body{background:#F33;}
+#contain{
+	width:1000px;
+	height:480px;
+	border:1px solid #CF9;	
+	margin:30px auto;
+}
+#left{
+	width:200px;
+	height:480px;
+	float:left;	
+}
+#left li{
+	width:200px;
+	height:120px;	
+}
+#left li .active{
+	filter:alpha(opacity:30);opacity:0.3;
+}
+#left img{
+	width:200px;
+	height:120px;	
+}
+#right{
+	width:800px;
+	height:480px;
+	float:left;
+	position:relative;
+}
+#right img{
+	width:800px;
+	height:480px;	
+}
+#right ul{
+	width:800px;
+	height:30px;
+	background:#333;
+	color:#FFF;
+	font-size:16px;
+	text-align:center;
+	line-height:30px;
+	filter:alpha(opacity:60);opacity:0.6;
+	position:absolute;
+	left:0;
+	bottom:0;	
+}
+#right li.active{ 
+	background:#CF6;	
+}
+</style>
+<script>
+window.onload = function (){
+	//左侧元素查找及数据准备
+	var oLeft = document.getElementById('left');
+	var aLi = oLeft.getElementsByTagName('li');
+	var aImg = oLeft.getElementsByTagName('img');
+	var leftImg = ['img/left1.jpg','img/left2.jpg','img/left3.jpg','img/left4.jpg'];
+	
+	var lenLi = aLi.length;	
+	
+	//右侧元素查找及数据准备
+	var oRight = document.getElementById('right');
+	var oImg = oRight.getElementsByTagName('img')[0];
+	var oUl = oRight.getElementsByTagName('ul')[0];
+	var aLi2 = oUl.getElementsByTagName('li');
+	var data = {
+		left0:{
+			url:['img/jd1.jpg','img/jd2.jpg','img/jd3.jpg'],
+			text:['第1组第1张','第1组第2张','第1组第3张']
+			},
+		left1:{
+			url:['img/jd6.jpg','img/jd2.jpg','img/jd3.jpg','img/jd4.jpg'],
+			text:['第2组第1张','第2组第2张','第2组第3张','第2组第4张']
+			},	
+		left2:{
+			url:['img/jd5.jpg','img/jd2.jpg','img/jd3.jpg','img/jd4.jpg','img/jd5.jpg'],
+			text:['第3组第1张','第3组第2张','第3组第3张','第3组第4张','第3组第5张']
+			},	
+		left3:{
+			url:['img/jd4.jpg','img/jd2.jpg','img/jd3.jpg','img/jd4.jpg','img/jd5.jpg','img/jd6.jpg'],
+			text:['第4组第1张','第4组第2张','第4组第3张','第4组第4张','第4组第5张','第4组第6张']
+			}	
+	}
+	
+	var oldLi = aLi[0];
+	var oldImg = aImg[0];
+	
+	//数据初始化
+	for(var i=0;i<lenLi;i++){
+		aImg[i].src = leftImg[i];
+	}
+	aImg[0].style.cssText = 'filter:alpha(opacity:60);opacity:0.6;';
+	aLi[0].style.cssText = 'background:yellow';
+	
+	sTab(data.left0.url,data.left0.text);
+	
+	for(var i=0;i<lenLi;i++){
+		fn(i);
+	}
+	//鼠标跑经过左侧li时，左侧li的变化及调用sTab函数显示右侧图片
+	function fn(num){
+		/*aLi[0].onmouseover = function (){
+			sTab(data.left0.url,data.left0.text);
+		}
+		aLi[1].onmouseover = function (){
+			sTab(data.left1.url,data.left1.text);
+		}
+		aLi[2].onmouseover = function (){
+			sTab(data.left2.url,data.left2.text);
+		}
+		aLi[3].onmouseover = function (){
+			sTab(data.left3.url,data.left3.text);
+		}*/
+		
+		aLi[num].onmouseover = function (){
+			if(num==0){
+				sTab(data.left0.url,data.left0.text);
+			}
+			if(num==1){
+				sTab(data.left1.url,data.left1.text);
+			}
+			if(num==2){
+				sTab(data.left2.url,data.left2.text);
+			}
+			if(num==3){
+				sTab(data.left3.url,data.left3.text);
+			}
+			
+			oldLi.style.cssText = '';
+			oldLi = this;
+			this.style.cssText = 'background:yellow';
+			oldImg.style.cssText = '';
+			oldImg = aImg[num];
+			aImg[num].style.cssText = 'filter:alpha(opacity:60);opacity:0.6;';
+		}
+	}
+	
+	
+	//鼠标经过左侧li时，右侧显示相应的图片
+	function sTab(url,text){
+		/*if(num==0){ 	//判断右侧div中需要生成几个li
+			var len = data.left0.url.length;
+		 	oImg.src = data.left0.url[0]; 
+			for(var i=0;i<len;i++){
+				str += '<li>' + data.left0.text[i] + '</li>';
+			}
+			oUl.innerHTML = str;
+		}else if(num==1){
+			var len = data.left1.url.length;
+			oImg.src = data.left1.url[0];
+			for(var i=0;i<len;i++){
+				str += '<li>' + data.left1.text[i] + '</li>';
+			}
+			oUl.innerHTML = str; 	
+		}else if(num==2){
+			var len = data.left2.url.length;
+			oImg.src = data.left2.url[0]; 
+			for(var i=0;i<len;i++){
+				str += '<li>' + data.left2.text[i] + '</li>';
+			}
+			oUl.innerHTML = str;
+		}else{
+			var len = data.left3.url.length;
+			oImg.src = data.left3.url[0];
+			for(var i=0;i<len;i++){
+				str += '<li>' + data.left3.text[i] + '</li>';
+			}
+			oUl.innerHTML = str; 
+		}*/		
+		/*var len = "data.left"+num+".url".length;	//这样写拼接成字符串
+		alert(len);  		//data.left04
+		oImg.src = "data.left"+num+".url[0]";
+		for(var i=0;i<len;i++){
+				str += '<li>' + "data.left"+num+".text[i]" + '</li>';
+			}
+		oUl.innerHTML = str;*/
+		var str = '';
+		var len = url.length;
+		oImg.src = url[0];
+		for(var i=0;i<len;i++){
+			str += '<li>' + text[i] + '</li>';
+		}
+			oUl.innerHTML = str;
+		
+		var s = parseInt(800/len)+'px';
+		for(var i=0;i<len;i++){
+			aLi2[i].style.cssText = "width:"+s+";float:left;";
+			//aLi2[0].style.cssText = "background:yellow;";  	//当存在两个cssText时，后面的那个会清空前面的那个cssText样式
+		}
+		aLi2[0].style.background = '#000';
+		
+		for(var i=0;i<len;i++){
+			change(i,url);
+		}
+	}
+	
+	//同一组图片之间的切换
+	function change(num,url){
+		aLi2[num].onmouseover = function (){
+			for(var i=0;i<url.length;i++){
+				aLi2[i].style.background = '';
+			}
+			this.style.background = '#000';
+			oImg.src = url[num];
+		}	
+	}
+}
+</script>
+<body>
+<div id='contain'>
+	<div id='left'>
+    	<ul>
+        	<li><img src='' /></li>
+        	<li><img src='' /></li>
+        	<li><img src='' /></li>
+        	<li><img src='' /></li>
+        </ul>
+    </div>
+    <div id='right'>
+    	<img src='' />
+        <ul></ul>
+    </div>
+</div>
+</body>
+</html>

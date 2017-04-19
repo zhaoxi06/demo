@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+body,div,input,ul,li{margin:0; padding:0;}
+li{list-style:none;}
+#div1{
+	width:400px;
+	height:230px;
+	margin:60px auto;
+	position:relative;
+}
+#menu li{
+	width:100px;
+	height:40px;
+	font-size:16px;
+	line-height:40px;
+	text-align:center;
+	float:left;
+	background:#94FFC6;
+	border:1px solid #fff;
+}
+#div2{
+	width:400px;
+	height:200px;
+	clear:both;
+	position:relative;	
+}
+#left{
+	width:300px;
+	height:200px;
+	position:absolute;
+	left:0;
+	top:2px;
+}
+#left img{
+	width:300px;
+	height:200px;	
+} 
+#right{
+	width:100px;
+	height:200px;
+	position:absolute;
+	left:300px;
+	top:2px;		
+}
+#right li{
+	width:100px;
+	height:50px;
+	line-height:50px;
+	text-align:center;
+	background:#CF6;
+}
+#right li.active{
+	background:#639CC6;
+}	
+</style>
+<script>
+window.onload = function (){
+	var oMenu = document.getElementById('menu');
+	var aLi1 = oMenu.getElementsByTagName('li');
+	var oLeft = document.getElementById('left');
+	var oImg = oLeft.getElementsByTagName('img')[0];
+	var oRight = document.getElementById('right');
+	var aLi2 = oRight.getElementsByTagName('li');
+	
+	var data = {
+		img1:{
+			url:['img/1xt.jpg','img/2xt.jpg','img/3xt.jpg','img/4xt.jpg'],
+			text:['西塘1', '西塘2', '西塘3', '西塘4']
+		},
+		img2:{
+			url:['img/gy1.jpg','img/gy2.jpg','img/gy3.jpg','img/gy4.jpg'],
+			text:['光影1', '光影2', '光影3', '光影4']	
+		}
+	};
+	
+	var num = 0;
+	var img = null;
+	var onOff = true;
+	var timer = null;
+	var oldLi = aLi2[0];
+	
+	//初始化
+	var len = data.img1.url.length;
+	for(var i=0;i<len;i++){
+		aLi2[i].innerHTML = data.img1.text[i];
+	}
+	oImg.src = data.img1.url[0];
+	aLi1[0].style.cssText = 'background:#005A63;color:white;';
+	aLi2[0].className = 'active';
+	oldLi = aLi2[0];
+	
+	
+	
+	function autoPlay(){
+		timer = setInterval(function (){
+		num ++;
+		num %= len;	
+		if(num===0){
+			onOff = !onOff;
+		}
+		if(onOff){
+			aLi1[0].style.cssText = '';
+			aLi1[1].style.cssText = 'background:#005A63;color:white;';
+			img = data.img2;
+		}else{
+			aLi1[1].style.cssText = '';
+			aLi1[0].style.cssText = 'background:#005A63;color:white;';
+			img = data.img1;
+		}
+		fn(img);
+		},1000);
+	}
+	autoPlay();
+	
+	function fn(img){
+		var len = img.url.length;
+		for(var i=0;i<len;i++){
+			aLi2[i].innerHTML = img.text[i];
+		}
+		oldLi.className = '';
+		oldLi = aLi2[num];
+		oImg.src = img.url[num];
+		aLi2[num].className = 'active';
+	}
+};
+</script>
+<body>
+<div id='div1'>
+	<ul id='menu'>
+    	<li>西塘</li>
+    	<li>光影</li>
+    </ul>
+    <div id='div2'>
+    	<div id='left'><img src=''/></div>
+    	<div id='right'>
+        <ul>
+        	<li></li>
+        	<li></li>
+        	<li></li>
+        	<li></li>
+        </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
