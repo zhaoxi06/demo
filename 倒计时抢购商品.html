@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+body,div,p,ul,li,input,img,span{margin:0;padding:0;}
+li{list-style:none;}
+#main{
+	width:700px;
+	margin:30px auto;
+	border:5px solid #666;
+}
+p{
+	width:700px;
+	height:30px;
+	line-height:30px;
+	text-align:left;
+	font-size:16px;	
+	text-indent:30px;
+}
+#top{
+	width:700px;
+	height:300px;
+	border-top:2px;
+	position:relative;
+}
+#top li{
+	width:155px;
+	height:300px;
+	padding:5px 10px;
+	position:absolute;
+	top:0;
+	background:no-repeat center center;
+}
+.text{
+	width:120px;
+	height:30px;
+	position:absolute;
+	top:0;
+	left:0;	
+}
+.btn{
+	width:32px;
+	height:34px;
+	position:absolute;
+	top:0;
+	left:123px;	
+}
+#top span{
+	width:155px;
+	height:30px;
+	font-size:12px;
+	color:#999;
+	text-align:center;	
+	position:absolute;
+	top:40px;
+	left:5px;	
+}
+#top img{
+	width:155px;
+	height:215px;
+	position:absolute;
+	top:65px;
+	left:0;	
+}
+#foot{
+	width:700px;
+	position:relative;
+}
+#ul1 li{
+	width:696px;
+	height:100px;
+	background:#CCC;
+	text-align:center;	
+	border:2px solid #fff;
+	display:none;
+	overflow:hidden;
+}
+#ul1 font,#ul1 span{
+	width:240px;
+	height:100px;
+	display:block;
+	font-weight:bold;
+	line-height:100px;
+	float:left;
+}
+#ul1 font{
+	left:0;	
+}
+#ul1 span{
+	left:240px;	
+}
+#ul1 img{
+	width:120px;
+	height:80px;
+	text-align:center;
+	padding:10px;
+}
+</style>
+<script src='miaov.js'></script>
+<script>
+window.onload = function(){
+	var oTop = document.getElementById('top');
+	var aLi1 = oTop.getElementsByTagName('li');
+	var oUl1 = document.getElementById('ul1');
+	var aLi2 = oUl1.getElementsByTagName('li');
+	var oSpan = document.getElementById('span');
+	var imgUrl = ['img/tbao1.png','img/tbao2.png','img/tbao3.png','img/tbao4.png'];
+	var arrName = ['疯狂599，美的爆款隐藏式面板下拉门微波炉','疯狂599，美的爆款隐藏式面板下拉门微波炉','疯狂599，美的爆款隐藏式面板下拉门微波炉','疯狂599，美的爆款隐藏式面板下拉门微波炉'];
+	var price = [599.00,3299.00,1.00,168.00];
+	var arr = [];
+	
+	var len = 4;
+	var str = '';
+	var num = 0;
+	
+	for(var i=10;i>0;i-=2){
+		arr.push(i,-i);
+	}	
+	arr.push(0);
+	
+	for(var i=0;i<len;i++){
+		aLi1[i].style.left = i*175 + 'px';
+		
+		var aBtn = aLi1[i].getElementsByTagName('input');
+		var oImg1 = aLi1[i].getElementsByTagName('img')[0];
+		
+		oImg1.src = imgUrl[i];
+		
+		doCountDown(aLi1[i],aLi2[i+1],i);
+	}
+	
+	function doCountDown(aLi,aLi2,num){
+		aLi.timer = null;
+		
+		var aBtn = aLi.getElementsByTagName('input');
+		var oSpan1 = aLi.getElementsByTagName('span')[0];
+		var oImg1 = aLi.getElementsByTagName('img')[0];
+		
+		aBtn[1].onclick = function(){
+			clearInterval(aLi.timer);
+			aLi.timer = setInterval(function(){
+				var iNow = new Date();
+				var iNew = new Date(aBtn[0].value);
+				var t = Math.floor((iNew - iNow)/1000);	
+				
+				var iDay = Math.floor(t/86400);
+				var iHours = Math.floor(t%86400/3600);
+				var iMin = Math.floor(t%86400%3600/60);
+				var iSec = Math.floor(t%60);
+				
+				oSpan1.innerHTML = '剩余'+iDay+'天'+iHours+'时'+iMin+'分'+iSec+'秒';
+				
+				if(t === 0){
+					clearInterval(aLi.timer);
+					doShake(aLi,aLi2,num);
+				}
+			},1000);		
+		}
+	}
+	
+	function doShake(aLi,aLi2,num){
+		aLi.flag = true;
+		if(aLi.flag){
+			aLi.flag = !aLi.flag;
+			shake( aLi, 'left', function(){
+				shake( aLi, 'top',function(){
+					doMove(aLi,'top',20,200);
+					opacity(aLi,0.1,0,function(){
+						show(aLi,aLi2,num);
+						//aLi.cssText = "top:0;opacity:1;background:red;";
+					});
+				} );
+			})
+		}else{
+			return ;	
+		}	
+	}
+	
+	
+	function show(aLi,aLi2,num){
+		
+		aLi.innerHTML = '';
+		aLi.style.backgroundImage = 'url(img/out.png)';
+		aLi.style.opacity = 1;
+		aLi.style.top = 0;
+		
+		var oFont = aLi2.getElementsByTagName('font')[0];
+		var oSpan2 = aLi2.getElementsByTagName('span')[0];
+		var oImg2 = aLi2.getElementsByTagName('img')[0];
+		
+		oFont.innerHTML = arrName[num];
+		oSpan2.innerHTML = price[num];
+		oImg2.src = imgUrl[num];
+		aLi2.style.display = 'block';
+		
+		oSpan.innerHTML = parseInt(oSpan.innerHTML)+price[num];
+		
+		num ++;
+	}
+}
+</script>
+</head>
+
+<body>
+<div id='main'>
+	<p>限购时间</p>
+	<div id='top'>
+    	<ul>
+    	<li>
+        	<input class='text' type='text' value='Octuber 25,2016 13:0:0'/>
+            <input class='btn' type='button' value='确定' />
+            <span>剩余00天00时00分00秒</span>
+            <img />
+        </li>
+    	<li>
+        	<input class='text' type='text' value='Octuber 25,2016 9:42:30'/>
+            <input class='btn' type='button' value='确定' />
+            <span>剩余00天00时00分00秒</span>
+            <img />
+        </li>
+    	<li>
+        	<input class='text' type='text' value='Octuber 25,2016 21:0:0'/>
+            <input class='btn' type='button' value='确定' />
+            <span>剩余00天00时00分00秒</span>
+            <img />
+        </li>
+    	<li>
+        	<input class='text' type='text' value='Octuber 25,2016 21:0:0'/>
+            <input class='btn' type='button' value='确定' />
+            <span>剩余00天00时00分00秒</span>
+            <img />
+        </li>
+        </ul>
+    </div>
+    <div id='foot'>
+    	<ul id='ul1'>
+        	<li style='display:block;'>
+                <font>商品名称</font>
+                <span>价格</span>
+            </li>
+        	<li>
+                <font></font>
+                <span></span>
+                <img />
+            </li>
+        	<li>
+                <font></font>
+                <span></span>
+                <img />
+            </li>
+        	<li>
+                <font></font>
+                <span></span>
+                <img />
+            </li>
+        	<li>
+                <font></font>
+                <span></span>
+                <img />
+            </li>
+        </ul>
+        总价：<span id='span'>00.00</span>元
+    </div>
+</div>
+</body>
+</html>

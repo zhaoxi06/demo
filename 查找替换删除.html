@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+body,div,li,ul{margin:0;padding:0;}
+li{list-style:none;}
+#div1{
+	width:400px;
+	padding:20px;
+	font-size:16px;
+	font-family:微软雅黑;
+	position:relative;	
+	top:40px;
+	left:200px;
+	border:1px solid #CF0;
+}
+#div1 span{
+	background:#FC3;	
+}
+.lis{
+	width:80px; 
+	height:30px; 
+	border:1px solid blue;
+	position:absolute;
+	top:40px;
+	left:660px;
+}
+.lis a{
+	display:block; 
+	line-height:30px; 
+	text-align:center;
+	text-decoration:none; 
+	color:#000; 
+	background:#f1f1f1;
+}
+#ul2{
+	width:80px;
+	border:1px solid #333;
+	position:absolute;
+	top:30px;
+	left:-1px;
+	background:#FF9; 
+	display:none;
+}
+#ul2 li{
+	text-align:center;
+	line-height:30px;
+}
+#div2{
+	width:400px;
+	height:150px;
+	position:relative;
+	top:50px;
+	left:200px;
+	border:5px solid #CFC;
+	padding:20px;
+	font-size:16px;
+	font-family:微软雅黑;
+	display:none;
+}
+#ul3{
+	height:40px;
+	border-bottom:2px solid #F63;	
+	text-align:center;
+	font-size:16px;
+	line-height:30px;
+}
+#ul3 li{
+	width:80px;
+	height:30px;
+	padding:5px;
+	float:left;	
+}
+li.active{
+	background:#F63;
+	color:#fff;	
+}
+#div2 span{
+	width:30px;
+	height:30px;
+	font-size:16px;
+	font-weight:bold;
+	text-align:center;
+	line-height:30px;
+	display:block;
+	position:absolute;
+	top:0;
+	right:0;	
+}
+#div3{
+	margin-top:20px;	
+}
+</style>
+
+<script>
+window.onload = function(){
+	var oDiv1 = document.getElementById('div1');
+	var oLis = document.getElementById('lis');
+	var oA = oLis.getElementsByTagName('a')[0];
+	var oUl2 = document.getElementById('ul2');
+	var aLi1 = oUl2.getElementsByTagName('li');
+	var oUl3 = document.getElementById('ul3');
+	var aLi2 = oUl3.getElementsByTagName('li');
+	var oDiv2 = document.getElementById('div2');
+	var oSpan = oDiv2.getElementsByTagName('span')[0];
+	var oDiv3 = document.getElementById('div3');
+	
+	var oldLi = aLi1[0];
+	var len = aLi1.length;
+	var oldDiv1 = oDiv1.innerHTML;
+	
+	oA.onclick = function(){
+		oUl2.style.display = 'block';	
+	}
+	
+	oSpan.onclick = function(){
+		oDiv2.style.display = 'none';	
+	}
+	
+	for(var i=0;i<len;i++){
+		aLi1[i].index = i;
+		aLi2[i].index = i;
+		aLi1[i].onmouseover = function(){
+			aLi1[0].className = '';
+			aLi1[1].className = '';
+			this.className = 'active';	
+		}
+		add(aLi1[i],aLi2[i],i);
+		
+		aLi2[i].onclick = function (){
+			oDiv1.innerHTML = oldDiv1;
+			clear();
+			this.className = 'active';
+			show(this.index);
+		}
+	}
+	
+	function clear(){
+		for(var i=0;i<len;i++){
+			aLi2[0].className = '';
+			aLi2[1].className = '';
+		}	
+	}
+	
+	function add(aLi1,aLi,index){
+		aLi1.onclick = function(){
+			oUl2.style.display = 'none';
+			oDiv2.style.display = 'block';
+			oDiv1.innerHTML = oldDiv1;
+			clear();		
+			aLi.className = 'active';
+			
+			show(index);
+		}
+	}
+	
+	function show(index){
+		if(index==0){
+			oDiv3.innerHTML = '<input type="text" />'+'<input type="button" value="查找" />';
+			
+			res();
+		}else{
+			oDiv3.innerHTML = '<input type="text" />'+'<input type="text" />'+'<input type="button" value="替换" />';	
+			
+			displace();
+		}
+	}
+	
+	function res(){
+		var aInp = oDiv3.getElementsByTagName('input');
+		
+		aInp[1].onclick = function(){
+			var str = aInp[0].value;
+			oDiv1.innerHTML = oldDiv1;
+			if(!str){
+				alert('请输入要查找的内容！');	
+			}else if(oDiv1.innerHTML.indexOf(str)==-1){
+				alert('你输入的【'+str+'】没有找到');
+			}else{
+				oDiv1.innerHTML = oDiv1.innerHTML.split(str).join('<span>'+str+'</span>');
+			}
+			aInp[0].value = '';
+		}
+	}
+	
+	function displace(){
+		var aInp = oDiv3.getElementsByTagName('input');
+		
+		
+		aInp[2].onclick = function (){
+			var str0 = aInp[0].value;
+			var str1 = aInp[1].value;
+			if(!str0||!str1){
+				alert('请输入要替换的值！');
+			}else{
+				oDiv1.innerHTML = oDiv1.innerHTML.split(str0).join('<span>'+str1+'</span>');	
+			}
+			aInp[0].value = '';
+			aInp[1].value = '';
+		}
+	}
+}
+</script>
+</head>
+
+<body>
+<div id='div1'>
+一转眼，春夏秋冬又将岁月围绕了一圈儿。印象中还站在去年秋天的风里，诱人的花香却将你引醉到今年的暮春时节。看过了玉兰花的娇媚又闻过了樱花的芳香，一簇簇蔷薇就带着俏皮的骨朵带来了五月的婀娜。而每一年五月的第二个星期日，都是一个伟大的日子——母亲节。在这一天，每个母亲健在的孩子都是幸运的。因为，他们依然可以看到自己的母亲，依然可以享受母亲无私的爱，我也是其中之一。
+</div>
+<ul id='ul1'>
+    <li id="lis" class="lis">
+        <a id="link" href="#">展开</a>
+        <ul id="ul2">
+            <li>查找</li>
+            <li>替换</li>
+        </ul> 
+    </li>
+</ul>
+<div id='div2'>
+	<ul id='ul3'>
+    	<li class='active'>查找</li>
+		<li>替换</li>
+    </ul>
+    <span>X</span>
+    <div id='div3'></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+
+<style>
+body,div,ul,li{margin:0;padding:0;}
+li{list-style:none;}
+#div1{
+	width:280px;
+	height:345px;
+	margin:40px auto;	
+	border:5px solid #000;
+	position:relative;
+	overflow:hidden;
+}
+#ul1,#ul2{
+	width:120px;
+	height:345px;
+	position:absolute;
+	top:0;
+	padding:5px;
+}
+#ul1{
+	left:0;	
+}
+#ul2{
+	right:0;	
+}
+ul div{
+	width:120px;
+	height:80px;
+	position:absolute;
+	left:5px;
+	overflow:hidden;	
+}
+li{
+	width:120px;
+	height:160px;
+	position:absolute;
+	top:0;
+	left:0;
+}
+li img{
+	width:120px;
+	height:80px;
+}
+</style>
+<script src='miaov.js'></script>
+<script>
+window.onload = function (){
+	var oDiv = document.getElementById('div1');
+	var oUl1 = document.getElementById('ul1');
+	var oUl2 = document.getElementById('ul2');
+	var aLi = oDiv.getElementsByTagName('li');
+	//var aLi1 = oUl1.getElementsByTagName('li');
+	//var aLi2 = oUl2.getElementsByTagName('li');
+	
+	var arrUrl = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg','img/5.jpg','img/6.jpg','img/7.jpg','img/8.jpg','img/9.jpg','img/10.jpg','img/11.jpg','img/12.jpg'];
+	
+	var str = '';
+	var num = 0;
+	var time = '';
+	
+	for(var i=0;i<4;i++){
+		num = 5+85*i;
+		str += '<div style="top:'+num+'px;"><li><img /><img /></li></div>'
+	}
+	oUl1.innerHTML = str;
+	oUl2.innerHTML = str;
+	
+	var len = aLi.length;
+	for(var i=0;i<len;i++){
+		show(aLi[i],i);
+		aLi[i].oldTop = parseInt(getStyle(aLi[i],'top'));
+		//aLi[i].onOff = false;
+	}
+	
+	function show(aLi,num){
+		var aImg = aLi.getElementsByTagName('img');
+		aImg[0].src = arrUrl[num];
+		aImg[1].src = arrUrl[num+4];
+	}
+	
+	function doLoop(){		
+		clearInterval(time);
+		//var oldNum = 0;
+		
+		time = setInterval(function(){
+			num = Math.round(Math.random()*7);
+			
+			var nowTop = parseInt(getStyle(aLi[num],'top'));
+			//aLi[num].onOff = !aLi[num].onOff;
+			
+			if(nowTop==aLi[num].oldTop){
+				doMove(aLi[num],'top',10,nowTop-80);
+			}else if(nowTop==aLi[num].oldTop-80){
+				doMove(aLi[num],'top',15,nowTop+80);
+			}else{
+				return ;	
+			}
+			
+			//oldNum = num;
+		},300);
+	}
+	doLoop();
+}
+
+
+
+</script>
+</head>
+
+<body>
+<div id='div1'>
+	<ul id='ul1'>
+    </ul>
+	<ul id='ul2'>
+    </ul>
+</div>
+</body>
+</html>
